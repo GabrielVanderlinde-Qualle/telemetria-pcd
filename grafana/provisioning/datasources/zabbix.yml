@@ -1,0 +1,20 @@
+apiVersion: 1
+
+datasources:
+  - name: Zabbix
+    type: alexanderzobnin-zabbix-datasource
+    uid: efewnmnptz75sa
+    access: proxy
+    isDefault: true
+    editable: false
+
+    jsonData:
+      trends: true
+      trendsFrom: ""
+      trendsRange: ""
+      cacheTtl: ""
+      timeout: ""
+      url: "${ZABBIX_URL}"
+
+    secureJsonData:
+      password: "${ZABBIX_TOKEN}"

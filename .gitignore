@@ -1,0 +1,44 @@
+# =============================================================================
+# .gitignore - Arquivos que NÃO devem ir para o repositório
+# =============================================================================
+
+# Credenciais e segredos
+.env
+*.key
+*.pem
+*.cert
+
+# Dados sensíveis (CSVs com IPs e coordenadas das estações)
+# Descomente a linha abaixo se quiser versionar os CSVs:
+# data/*.csv
+
+# Grafana - dados de runtime (não versionar)
+grafana/data/
+grafana/*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+.env/
+pip-log.txt
+
+# Podman / Docker
+*.pid
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,371 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "enable": true, "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 5, "w": 10, "x": 0, "y": 0 },
+      "id": 4,
+      "options": {
+        "code": { "language": "plaintext", "showLineNumbers": false, "showMiniMap": false },
+        "content": "<div style=\"display: flex; align-items: center; height: 100%; padding-left: 10px;\">\n  <div>\n    <div style=\"font-size: 26px; font-weight: bold; color: #2c323f;\">Painel de Comunicação</div>\n    <div style=\"font-size: 14px; font-weight: normal; color: #6b7280; margin-top: 5px;\">Monitoramento em Tempo Real - $grupo</div>\n  </div>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "12.4.0",
+      "title": "", "transparent": true, "type": "text"
+    },
+
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "displayName": "Sem Comunicação",
+          "mappings": [], "min": 0, "noValue": "0",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "#e02f44", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 5, "w": 7, "x": 10, "y": 0 },
+      "id": 3,
+      "options": {
+        "minVizHeight": 75, "minVizWidth": 75, "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["count"], "fields": "", "values": false },
+        "showThresholdLabels": false, "showThresholdMarkers": false, "sizing": "auto",
+        "text": { "titleSize": 0, "valueSize": 34 }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "ICMP ping" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "Ping", "resultFormat": "time_series"
+        },
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "Latitude" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "Lat", "resultFormat": "time_series"
+        }
+      ],
+      "title": "SEM COMUNICAÇÃO",
+      "transformations": [
+        { "id": "reduce", "options": { "labelsToFields": true, "mode": "seriesToRows", "reducers": ["last"] } },
+        { "id": "groupingToMatrix", "options": { "columnField": "item", "rowField": "host", "valueField": "Last" } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "Latitude" }] } },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              { "config": { "id": "isNull", "options": {} }, "fieldName": "Latitude" },
+              { "config": { "id": "equal", "options": { "value": 0 } }, "fieldName": "Latitude" }
+            ],
+            "match": "any", "type": "exclude"
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [{ "config": { "id": "regex", "options": { "value": "^0$" } }, "fieldName": "ICMP ping" }],
+            "match": "all", "type": "include"
+          }
+        },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "ICMP ping" }] } },
+        { "id": "organize", "options": { "excludeByName": { "Latitude": true, "host": true }, "indexByName": {}, "renameByName": {} } }
+      ],
+      "type": "gauge"
+    },
+
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "displayName": "Estáveis",
+          "mappings": [], "min": 0, "noValue": "0",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "#299c46", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 5, "w": 7, "x": 17, "y": 0 },
+      "id": 2,
+      "options": {
+        "minVizHeight": 75, "minVizWidth": 75, "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["count"], "fields": "", "values": false },
+        "showThresholdLabels": false, "showThresholdMarkers": false, "sizing": "auto",
+        "text": { "titleSize": 0, "valueSize": 32 }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "ICMP ping" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "Ping", "resultFormat": "time_series"
+        },
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "Latitude" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "Lat", "resultFormat": "time_series"
+        }
+      ],
+      "title": "ESTAÇÕES ESTÁVEIS",
+      "transformations": [
+        { "id": "reduce", "options": { "labelsToFields": true, "mode": "seriesToRows", "reducers": ["last"] } },
+        { "id": "groupingToMatrix", "options": { "columnField": "item", "rowField": "host", "valueField": "Last" } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "Latitude" }] } },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              { "config": { "id": "isNull", "options": {} }, "fieldName": "Latitude" },
+              { "config": { "id": "equal", "options": { "value": 0 } }, "fieldName": "Latitude" }
+            ],
+            "match": "any", "type": "exclude"
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [{ "config": { "id": "regex", "options": { "value": "^1$" } }, "fieldName": "ICMP ping" }],
+            "match": "all", "type": "include"
+          }
+        },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "ICMP ping" }] } },
+        { "id": "organize", "options": { "excludeByName": { "Latitude": true, "host": true }, "indexByName": {}, "renameByName": {} } }
+      ],
+      "type": "gauge"
+    },
+
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "hideFrom": { "legend": false, "tooltip": false, "viz": false } },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#e02f44", "value": null },
+              { "color": "#299c46", "value": 1 }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "ping" },
+            "properties": [
+              { "id": "color", "value": { "mode": "thresholds" } },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    { "color": "#e02f44", "value": null },
+                    { "color": "#299c46", "value": 1 }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 19, "w": 24, "x": 0, "y": 5 },
+      "id": 1,
+      "options": {
+        "basemap": { "config": { "theme": "light" }, "name": "Layer 0", "noRepeat": false, "type": "carto" },
+        "controls": {
+          "mouseWheelZoom": true, "showAttribution": true, "showDebug": false,
+          "showMeasure": false, "showScale": false, "showZoom": true
+        },
+        "layers": [
+          {
+            "name": "Estações",
+            "type": "markers",
+            "location": { "mode": "auto" },
+            "layer-tooltip": true,
+            "config": {
+              "color": { "field": "ping", "mode": "thresholds" },
+              "location": { "latitude": "Latitude", "longitude": "Longitude", "mode": "coords" },
+              "showLegend": true,
+              "size": { "fixed": 12 },
+              "style": {
+                "opacity": 1,
+                "rotation": { "fixed": 0, "max": 360, "min": -360, "mode": "mod" },
+                "symbol": { "field": "", "fixed": "", "mode": "fixed" },
+                "text": { "field": "host", "fixed": "", "mode": "field" },
+                "textConfig": { "fontSize": 12, "offsetY": -15, "textAlign": "center", "textBaseline": "bottom" }
+              }
+            }
+          }
+        ],
+        "tooltip": { "mode": "details" },
+        "view": { "allLayers": true, "id": "coords", "lat": -28.5, "lon": -52, "noRepeat": false, "shared": false, "zoom": 6 }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "Latitude" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "A", "resultFormat": "time_series"
+        },
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "Longitude" },
+          "options": { "disableDataAlignment": true, "skipEmptyValues": true, "useTrends": "false" },
+          "queryType": "0", "refId": "B", "resultFormat": "time_series"
+        },
+        {
+          "application": { "filter": "" },
+          "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+          "evaltype": "0", "functions": [],
+          "group": { "filter": "$grupo" }, "host": { "filter": "$estacao" },
+          "item": { "filter": "ICMP ping" },
+          "itemTag": { "filter": "" }, "macro": { "filter": "" },
+          "options": { "count": false, "disableDataAlignment": true, "showDisabledItems": false, "skipEmptyValues": true, "useTrends": "false", "useZabbixValueMapping": false },
+          "proxy": { "filter": "" }, "queryType": "0", "refId": "C", "resultFormat": "time_series"
+        }
+      ],
+      "title": "Geolocalização das Estações",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": { "labelsToFields": true, "mode": "seriesToRows", "reducers": ["last"] }
+        },
+        {
+          "id": "groupingToMatrix",
+          "options": { "columnField": "item", "rowField": "host", "valueField": "Last" }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              { "destinationType": "number", "targetField": "Latitude" },
+              { "destinationType": "number", "targetField": "Longitude" },
+              { "destinationType": "string",  "targetField": "ICMP ping" }
+            ]
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              { "config": { "id": "isNull", "options": {} }, "fieldName": "Latitude" },
+              { "config": { "id": "isNull", "options": {} }, "fieldName": "Longitude" },
+              { "config": { "id": "isNull", "options": {} }, "fieldName": "ICMP ping" },
+              { "config": { "id": "equal", "options": { "value": 0 } }, "fieldName": "Latitude" },
+              { "config": { "id": "equal", "options": { "value": 0 } }, "fieldName": "Longitude" }
+            ],
+            "match": "any", "type": "exclude"
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [{ "config": { "id": "regex", "options": { "value": "$status_mapa" } }, "fieldName": "ICMP ping" }],
+            "match": "all", "type": "include"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": { "conversions": [{ "destinationType": "number", "targetField": "ICMP ping" }] }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": { "ICMP ping": "ping" }
+          }
+        }
+      ],
+      "type": "geomap"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": { "text": "All", "value": "$__all" },
+        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+        "includeAll": true,
+        "label": "GRUPO / ESTADO:",
+        "name": "grupo",
+        "options": [],
+        "query": { "group": "/.*/", "queryType": "group" },
+        "refresh": 1,
+        "regex": "/^BR\\.(?:RS|SC)\\._\\.DC(?:RS|SC) - PCDs$/",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": { "text": "All", "value": "$__all" },
+        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "efewnmnptz75sa" },
+        "includeAll": true,
+        "label": "ESTAÇÃO:",
+        "name": "estacao",
+        "options": [],
+        "query": { "group": "$grupo", "host": "/^DC/", "queryType": "host" },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": { "text": "Todos", "value": ".*" },
+        "includeAll": false,
+        "label": "STATUS MAPA:",
+        "name": "status_mapa",
+        "options": [
+          { "selected": true,  "text": "Todos",           "value": ".*"  },
+          { "selected": false, "text": "Estáveis",        "value": "^1$" },
+          { "selected": false, "text": "Sem Comunicação", "value": "^0$" }
+        ],
+        "query": "Todos : .*, Estáveis : ^1$, Sem Comunicação : ^0$",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": { "from": "now-3h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Dashboard Monitoramento de Estações",
+  "uid": "adr4k68",
+  "version": 78,
+  "weekStart": ""
+}
