@@ -50,71 +50,6 @@ telemetria-pcd/
 
 ---
 
-## 🚀 Deploy Rápido (Podman)
-
-### Pré-requisitos
-- Podman instalado (`podman --version`)
-- Podman Compose (`pip install podman-compose`)
-- Acesso à rede onde o Zabbix está rodando
-- Conta Microsoft para autenticação (Azure AD configurado)
-
-### 1. Clonar o repositório
-```bash
-git clone https://github.com/SUA_ORG/telemetria-pcd.git
-cd telemetria-pcd
-```
-
-### 2. Configurar variáveis de ambiente
-```bash
-cp .env.example .env
-nano .env   # Preencha as variáveis com seus dados reais
-```
-
-### 3. Subir o Grafana com Podman
-```bash
-podman-compose up -d
-```
-
-### 4. Acessar o dashboard
-Abra no navegador: `http://SEU_IP_SERVIDOR:3000`
-
-Login com sua conta Microsoft (`usuario@suaempresa.com.br`)
-
-> 📖 Para deploy completo com URL pública e HTTPS, veja [docs/DEPLOY.md](docs/DEPLOY.md)
-
----
-
-## 🏗️ Arquitetura
-
-```
-Internet / Rede Interna
-        │
-        ▼
-┌───────────────────┐
-│   Nginx (Proxy)   │  :443 HTTPS → :3000 Grafana
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Grafana (Podman) │  Lê dados do Zabbix via plugin
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Zabbix Server    │  Monitora 314 estações (RS + SC)
-└─────────┬─────────┘
-          │
-     ┌────┴────┐
-     ▼         ▼
- PCDs RS    PCDs SC
-(Mikrotik) (Mikrotik)
-```
-
----
-
-## 📊 O Dashboard
-
-O painel principal exibe:
 
 | Painel | Função |
 |--------|--------|
@@ -175,7 +110,7 @@ Ao acessar o dashboard, clique em **"Sign in with Microsoft"**.
 
 ## 👥 Equipe
 
-| Papel | Responsabilidade |
+| Responsabilidade |
 |-------|-----------------|
 | Infraestrutura | Zabbix, rede, PCDs |
 | Desenvolvimento | Scripts Python, Dashboard Grafana |
